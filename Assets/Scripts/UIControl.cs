@@ -82,7 +82,7 @@ public class UIControl : MonoBehaviour
     }
 
     /// <summary>
-    /// 发送接收mod列表文件
+    /// 发送接收mod列表文件消息
     /// </summary>
     private void SendGetModFile()
     {
@@ -229,8 +229,9 @@ public class UIControl : MonoBehaviour
     /// </summary>
     private void ContrastMod()
     {
-        string path = Directory.GetCurrentDirectory() + "mod.txt";
-        if (File.Exists(path) && !string.IsNullOrEmpty(_fileText.text))
+        string path = Directory.GetCurrentDirectory() + @"\mod.txt";
+        Debug.LogError(path);
+        if (File.Exists(@path) && !string.IsNullOrEmpty(_fileText.text))
         {
             addList = new List<string>();
             deleteList = new List<string>();
@@ -273,7 +274,7 @@ public class UIControl : MonoBehaviour
         }
         else
         {
-            Debug.LogError("mod列表文件不存在或者未选择下载路径");
+            Debug.LogError("mod目录文件不存在或者未选择下载路径");
         }
     }
 
@@ -311,10 +312,11 @@ public class UIControl : MonoBehaviour
 
     private void BeginDoload()
     {
-        if(index > addList.Count)
+        if(index >= addList.Count)
         {
             return;
         }
+        Debug.LogError(index + addList[index]);
         IPEndPoint ipEndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 2558);
         Thread thread = new Thread(ReceiveModHandler);
         thread.Start(ipEndPoint);
@@ -344,7 +346,7 @@ public class UIControl : MonoBehaviour
             NetworkStream stream = tcpClient.GetStream();
             if(stream != null)
             {
-                FileStream fileStream = new FileStream(path + addList[index], FileMode.Create, FileAccess.Write);
+                FileStream fileStream = new FileStream(path + @"/" + addList[index], FileMode.Create, FileAccess.Write);
                 int fileReadSize = 0;
                 byte[] buffer = new byte[2048];
                 while ((fileReadSize = stream.Read(buffer, 0, buffer.Length)) > 0)
