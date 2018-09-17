@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 /// <summary>
 /// 接收文件实体类
 /// </summary>
@@ -28,5 +29,10 @@ public class ReceiveFileData
     /// md5
     /// </summary>
     public string md5 { get; set; }
+
+    /// <summary>
+    /// 回调
+    /// </summary>
+    public Action callback { get; set; }
 }
 
